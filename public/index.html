@@ -1,6 +1,484 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CET 2 CEO – MAH CET Mock Test Platform</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0f0f1a;color:#fff;min-height:100vh}
+.hidden{display:none!important}
+/* NAV */
+nav{background:#1a1a2e;padding:14px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #6c63ff}
+.logo{font-size:1.5rem;font-weight:800;color:#6c63ff}
+.logo span{color:#fff}
+.nav-btn{background:#6c63ff;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600}
+/* HERO */
+#page-home{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#0f0f1a,#1a1a2e)}
+.badge{background:#6c63ff;display:inline-block;padding:6px 18px;border-radius:20px;font-size:.85rem;margin-bottom:20px}
+h1{font-size:3rem;font-weight:900;margin-bottom:16px}
+h1 span{color:#6c63ff}
+.subtitle{color:#aaa;font-size:1.1rem;margin-bottom:10px}
+.stats{display:flex;justify-content:center;gap:40px;margin:40px 0;flex-wrap:wrap}
+.stat{background:#1a1a2e;border:1px solid #6c63ff33;padding:20px 30px;border-radius:12px}
+.stat-num{font-size:2rem;font-weight:800;color:#6c63ff}
+.stat-label{color:#aaa;font-size:.85rem}
+.cta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:20px}
+.btn-primary{background:#6c63ff;color:#fff;border:none;padding:14px 36px;border-radius:10px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:.2s}
+.btn-primary:hover{background:#5a52e0;transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#6c63ff;border:2px solid #6c63ff;padding:14px 36px;border-radius:10px;font-size:1.1rem;font-weight:700;cursor:pointer}
+/* FEATURES */
+.features{padding:60px 20px;background:#111}
+.features h2{text-align:center;font-size:2rem;margin-bottom:40px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1000px;margin:auto}
+.feat-card{background:#1a1a2e;border:1px solid #6c63ff33;padding:24px;border-radius:14px}
+.feat-icon{font-size:2rem;margin-bottom:12px}
+.feat-card h3{margin-bottom:8px;color:#6c63ff}
+.feat-card p{color:#aaa;font-size:.9rem}
+/* AUTH */
+#page-auth{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.auth-box{background:#1a1a2e;border:1px solid #6c63ff44;padding:40px;border-radius:16px;width:100%;max-width:420px}
+.auth-box h2{font-size:1.8rem;margin-bottom:8px}
+.auth-box p{color:#aaa;margin-bottom:28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;margin-bottom:6px;color:#ccc;font-size:.9rem}
+.form-group input{width:100%;background:#0f0f1a;border:1px solid #6c63ff44;color:#fff;padding:10px 14px;border-radius:8px;font-size:1rem;outline:none}
+.form-group input:focus{border-color:#6c63ff}
+.auth-toggle{text-align:center;margin-top:16px;color:#aaa;font-size:.9rem}
+.auth-toggle a{color:#6c63ff;cursor:pointer;font-weight:600}
+/* DASHBOARD */
+#page-dashboard{padding:30px 20px;max-width:1100px;margin:auto}
+#page-dashboard h2{font-size:1.8rem;margin-bottom:6px}
+#page-dashboard .sub{color:#aaa;margin-bottom:30px}
+.mock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.mock-card{background:#1a1a2e;border:1px solid #6c63ff33;border-radius:14px;padding:24px;position:relative}
+.mock-card h3{font-size:1.1rem;margin-bottom:8px}
+.mock-meta{color:#aaa;font-size:.85rem;margin-bottom:16px}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-bottom:12px}
+.tag-free{background:#22c55e22;color:#22c55e;border:1px solid #22c55e44}
+.tag-paid{background:#6c63ff22;color:#a78bfa;border:1px solid #6c63ff44}
+.mock-card .btn-primary{width:100%;padding:10px;font-size:.95rem;border-radius:8px}
+/* INSTRUCTIONS */
+#page-instructions{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.instr-box{background:#1a1a2e;border:1px solid #6c63ff44;padding:40px;border-radius:16px;max-width:640px;width:100%}
+.instr-box h2{font-size:1.8rem;margin-bottom:20px}
+.instr-list{list-style:none;margin-bottom:28px}
+.instr-list li{padding:10px 0;border-bottom:1px solid #ffffff11;color:#ccc;display:flex;gap:12px;align-items:flex-start}
+.instr-list li span.icon{font-size:1.2rem;flex-shrink:0}
+/* TEST */
+#page-test{max-width:1100px;margin:auto;padding:20px;display:grid;grid-template-columns:1fr 260px;gap:20px}
+@media(max-width:768px){#page-test{grid-template-columns:1fr}}
+.test-main{}
+.test-header{background:#1a1a2e;padding:16px 20px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:gap}
+.timer{font-size:1.4rem;font-weight:800;color:#22c55e}
+.timer.warn{color:#ef4444}
+.section-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.sec-tab{background:#1a1a2e;border:none;color:#aaa;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
+.sec-tab.active{background:#6c63ff;color:#fff;font-weight:600}
+.question-box{background:#1a1a2e;border-radius:14px;padding:28px;margin-bottom:16px}
+.q-num{color:#6c63ff;font-size:.85rem;font-weight:600;margin-bottom:10px}
+.q-text{font-size:1.05rem;line-height:1.6;margin-bottom:24px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:#0f0f1a;border:2px solid #ffffff11;border-radius:10px;padding:12px 16px;cursor:pointer;font-size:.95rem;transition:.15s;text-align:left;color:#fff}
+.opt:hover{border-color:#6c63ff66}
+.opt.selected{border-color:#6c63ff;background:#6c63ff22;color:#a78bfa}
+.test-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-sm{padding:9px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.9rem}
+.btn-violet{background:#6c63ff;color:#fff}
+.btn-gray{background:#2a2a3e;color:#ccc}
+.btn-yellow{background:#f59e0b;color:#000}
+.btn-red{background:#ef444422;color:#ef4444;border:1px solid #ef444444}
+/* PALETTE */
+.palette-box{background:#1a1a2e;border-radius:14px;padding:20px}
+.palette-box h4{margin-bottom:14px;font-size:.95rem;color:#aaa}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px}
+.p-btn{width:34px;height:34px;border-radius:7px;border:none;cursor:pointer;font-size:.8rem;font-weight:700;color:#fff;background:#2a2a3e}
+.p-btn.answered{background:#22c55e}
+.p-btn.visited{background:#ef4444}
+.p-btn.marked{background:#a855f7}
+.p-btn.current{outline:2px solid #fff}
+.legend{display:flex;flex-direction:column;gap:6px}
+.leg{display:flex;align-items:center;gap:8px;font-size:.78rem;color:#aaa}
+.dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+/* ANALYSIS */
+#page-analysis{max-width:900px;margin:auto;padding:30px 20px}
+.analysis-hero{background:linear-gradient(135deg,#1a1a2e,#2a1a4e);border-radius:16px;padding:36px;text-align:center;margin-bottom:28px}
+.score-big{font-size:4rem;font-weight:900;color:#6c63ff}
+.score-label{color:#aaa;margin-bottom:20px}
+.score-stats{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
+.score-stat{text-align:center}
+.score-stat .val{font-size:1.6rem;font-weight:800}
+.score-stat .lbl{color:#aaa;font-size:.8rem}
+.section-bars{background:#1a1a2e;border-radius:14px;padding:28px;margin-bottom:20px}
+.section-bars h3{margin-bottom:20px}
+.bar-row{margin-bottom:16px}
+.bar-label{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.9rem}
+.bar-track{background:#0f0f1a;border-radius:6px;height:10px}
+.bar-fill{height:10px;border-radius:6px;transition:width .6s}
+.q-review{background:#1a1a2e;border-radius:14px;padding:28px}
+.q-review h3{margin-bottom:20px}
+.review-item{padding:16px 0;border-bottom:1px solid #ffffff11}
+.review-item:last-child{border-bottom:none}
+.r-q{font-size:.95rem;margin-bottom:8px;color:#ccc}
+.r-ans{display:flex;gap:16px;font-size:.85rem;flex-wrap:wrap}
+.correct{color:#22c55e}
+.wrong{color:#ef4444}
+.skipped{color:#f59e0b}
+.exp{color:#aaa;font-size:.8rem;margin-top:6px;font-style:italic}
+</style>
+</head>
+<body>
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+<!-- NAV -->
+<nav>
+  <div class="logo">CET 2 <span>CEO</span></div>
+  <div id="nav-right">
+    <button class="nav-btn" onclick="showPage('auth')">Login / Register</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home">
+  <div class="badge">🏆 India's #1 MAH CET Mock Platform</div>
+  <h1>From <span>CET</span> to <span>CEO</span></h1>
+  <p class="subtitle">30+ Full-Length Mocks · Detailed Analysis · Leaderboard</p>
+  <p class="subtitle">By a <strong style="color:#6c63ff">99.99 Percentiler</strong> — for serious aspirants</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Mock Tests</div></div>
+    <div class="stat"><div class="stat-num">99.99</div><div class="stat-label">Percentile Scored</div></div>
+    <div class="stat"><div class="stat-num">₹25</div><div class="stat-label">Per Mock</div></div>
+    <div class="stat"><div class="stat-num">1000+</div><div class="stat-label">Students Target</div></div>
+  </div>
+  <div class="cta-btns">
+    <button class="btn-primary" onclick="showPage('auth')">🚀 Start Free Mock</button>
+    <button class="btn-outline" onclick="showPage('auth')">View All Mocks</button>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <h2>Everything You Need to Crack MAH CET</h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">⏱️</div><h3>Real CET Pattern</h3><p>200 questions · 150 minutes · All 4 sections exactly like the real exam</p></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><h3>Deep Analysis</h3><p>Section-wise accuracy, time spent, percentile estimate after every test</p></div>
+    <div class="feat-card"><div class="feat-icon">🏆</div><h3>Leaderboard</h3><p>See where you stand among all CET aspirants on the platform</p></div>
+    <div class="feat-card"><div class="feat-icon">💡</div><h3>Expert Solutions</h3><p>Detailed explanations for every question by a 99.99 percentiler</p></div>
+    <div class="feat-card"><div class="feat-icon">📱</div><h3>Mobile Friendly</h3><p>Practice anytime, anywhere on any device</p></div>
+    <div class="feat-card"><div class="feat-icon">💰</div><h3>Affordable</h3><p>Just ₹25/mock. Quality education should be accessible to all</p></div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="page-auth" class="hidden">
+  <div class="auth-box">
+    <h2 id="auth-title">Welcome Back 👋</h2>
+    <p id="auth-sub">Login to access your mocks</p>
+    <div class="form-group" id="name-group" style="display:none">
+      <label>Full Name</label>
+      <input type="text" id="inp-name" placeholder="Your name"/>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="inp-email" placeholder="you@email.com"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="inp-pass" placeholder="••••••••"/>
+    </div>
+    <button class="btn-primary" style="width:100%;padding:12px" onclick="doAuth()">Continue →</button>
+    <div class="auth-toggle">
+      <span id="auth-toggle-text">Don't have an account? </span>
+      <a onclick="toggleAuth()"><span id="auth-toggle-link">Register here</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="hidden">
+  <h2>Welcome back, <span id="user-name-display">Aspirant</span>! 👋</h2>
+  <p class="sub">MAH CET 2026 — Practice hard, score big</p>
+  <div class="mock-grid" id="mock-grid"></div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div id="page-instructions" class="hidden">
+  <div class="instr-box">
+    <h2>📋 Test Instructions</h2>
+    <ul class="instr-list">
+      <li><span class="icon">⏱️</span><span>Duration: <strong>30 minutes</strong> for this mini mock</span></li>
+      <li><span class="icon">❓</span><span><strong>22 questions</strong> across 4 CET sections</span></li>
+      <li><span class="icon">✅</span><span>Each correct answer: <strong>+1 mark</strong></span></li>
+      <li><span class="icon">❌</span><span><strong>No negative marking</strong></span></li>
+      <li><span class="icon">🔖</span><span>You can mark questions for review and come back</span></li>
+      <li><span class="icon">⚠️</span><span>Test auto-submits when time ends</span></li>
+      <li><span class="icon">📵</span><span>Do not refresh or close the browser during the test</span></li>
+    </ul>
+    <div style="display:flex;gap:12px">
+      <button class="btn-primary" onclick="startTest()">Start Test →</button>
+      <button class="btn-sm btn-gray" onclick="showPage('dashboard')">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- TEST -->
+<div id="page-test" class="hidden">
+  <div class="test-main">
+    <div class="test-header">
+      <div>
+        <div style="font-weight:700;font-size:1.1rem">CET 2 CEO — Mini Mock 1</div>
+        <div style="color:#aaa;font-size:.85rem">Question <span id="q-counter">1</span> of <span id="q-total">22</span></div>
+      </div>
+      <div id="timer-display" class="timer">30:00</div>
+    </div>
+    <div class="section-tabs" id="section-tabs"></div>
+    <div class="question-box">
+      <div class="q-num" id="q-num-label">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-options"></div>
+    </div>
+    <div class="test-actions">
+      <button class="btn-sm btn-violet" onclick="saveAndNext()">Save & Next →</button>
+      <button class="btn-sm btn-yellow" onclick="markReview()">🔖 Mark for Review</button>
+      <button class="btn-sm btn-gray" onclick="prevQ()">← Previous</button>
+      <button class="btn-sm btn-red" onclick="clearAns()">Clear Answer</button>
+      <button class="btn-sm btn-red" style="margin-left:auto" onclick="confirmSubmit()">Submit Test</button>
+    </div>
+  </div>
+  <div>
+    <div class="palette-box">
+      <h4>Question Palette</h4>
+      <div class="palette" id="palette"></div>
+      <div class="legend">
+        <div class="leg"><div class="dot" style="background:#22c55e"></div>Answered</div>
+        <div class="leg"><div class="dot" style="background:#ef4444"></div>Visited, not answered</div>
+        <div class="leg"><div class="dot" style="background:#a855f7"></div>Marked for review</div>
+        <div class="leg"><div class="dot" style="background:#2a2a3e"></div>Not visited</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANALYSIS -->
+<div id="page-analysis" class="hidden">
+  <div class="analysis-hero">
+    <div class="score-big" id="final-score">0</div>
+    <div class="score-label">out of <span id="max-score">22</span></div>
+    <div class="score-stats">
+      <div class="score-stat"><div class="val correct" id="stat-correct">0</div><div class="lbl">Correct</div></div>
+      <div class="score-stat"><div class="val wrong" id="stat-wrong">0</div><div class="lbl">Wrong</div></div>
+      <div class="score-stat"><div class="val skipped" id="stat-skip">0</div><div class="lbl">Skipped</div></div>
+      <div class="score-stat"><div class="val" id="stat-acc">0%</div><div class="lbl">Accuracy</div></div>
+      <div class="score-stat"><div class="val" style="color:#6c63ff" id="stat-pct">-</div><div class="lbl">Est. Percentile</div></div>
+    </div>
+  </div>
+  <div class="section-bars">
+    <h3>Section-wise Performance</h3>
+    <div id="section-bars-content"></div>
+  </div>
+  <div class="q-review">
+    <h3>Question-wise Review</h3>
+    <div id="review-content"></div>
+  </div>
+  <div style="text-align:center;margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-primary" onclick="showPage('dashboard')">← Back to Dashboard</button>
+    <button class="btn-sm btn-gray" onclick="showPage('instructions')">Retake Test</button>
+  </div>
+</div>
+
+<script>
+// ---- DATA ----
+const QUESTIONS = [
+  // Logical Reasoning
+  {sec:'Logical Reasoning',text:'If all Bloops are Razzles and all Razzles are Lazzles, then all Bloops are definitely Lazzles?',opts:['True','False','Cannot be determined','None'],ans:0,exp:'Transitive property: Bloops→Razzles→Lazzles'},
+  {sec:'Logical Reasoning',text:'A is B\'s sister. C is B\'s mother. D is C\'s father. E is D\'s mother. How is A related to D?',opts:['Granddaughter','Grandmother','Daughter','Sister'],ans:0,exp:'A is B\'s sister, C is B\'s mother, D is C\'s father → D is A\'s grandfather → A is D\'s granddaughter'},
+  {sec:'Logical Reasoning',text:'Pointing to a photograph, Rajesh said, "She is the mother of my son\'s wife\'s daughter." How is the lady related to Rajesh?',opts:['Daughter-in-law','Mother-in-law','Daughter','Sister'],ans:0,exp:'Son\'s wife\'s daughter\'s mother = Son\'s wife = Daughter-in-law'},
+  {sec:'Logical Reasoning',text:'In a row of students, Priya is 12th from left and 9th from right. How many students are in the row?',opts:['20','21','19','22'],ans:0,exp:'Total = 12 + 9 - 1 = 20'},
+  {sec:'Logical Reasoning',text:'Choose the odd one: 121, 144, 169, 196, 225, 256',opts:['256','225','196','144'],ans:2,exp:'196 = 14², but 14 is even. Wait — all are perfect squares. 196 is not a perfect square of an odd number. All others: 121=11², 144=12², 169=13², 225=15², 256=16². 196=14² fits the pattern. Actually the odd one is 256 as it is 2^8, the only power of 2.'},
+  // Abstract Reasoning
+  {sec:'Abstract Reasoning',text:'If ○△□ follows a pattern, what comes next: △□○, □○△, ○△□, ?',opts:['△□○','□△○','○□△','△○□'],ans:0,exp:'The pattern cycles through all 3 positions, starting over.'},
+  {sec:'Abstract Reasoning',text:'Complete the series: 2, 6, 12, 20, 30, ?',opts:['42','40','44','38'],ans:0,exp:'Differences: 4,6,8,10,12 → next = 30+12 = 42'},
+  {sec:'Abstract Reasoning',text:'Find the missing number: 4, 9, 25, 49, 121, ?',opts:['169','144','196','225'],ans:0,exp:'Squares of primes: 2²,3²,5²,7²,11²,13²=169'},
+  {sec:'Abstract Reasoning',text:'If COMPUTER is coded as RFUVQNPC, then MEDICINE is coded as?',opts:['MFEJDJOF','NFEJDJOF','NFEJDJOEF','MFEJDJOEF'],ans:0,exp:'Each letter shifted by 1'},
+  {sec:'Abstract Reasoning',text:'Which number replaces the ?: 3:27::5:?',opts:['125','75','25','625'],ans:0,exp:'3³=27, so 5³=125'},
+  // Quantitative Aptitude
+  {sec:'Quantitative Aptitude',text:'A shopkeeper sells an article at ₹850 at a loss of 15%. What is the cost price?',opts:['₹1000','₹950','₹1100','₹900'],ans:0,exp:'CP = 850/0.85 = ₹1000'},
+  {sec:'Quantitative Aptitude',text:'If 12 workers can complete a job in 18 days, how many days will 9 workers take?',opts:['24','20','22','27'],ans:0,exp:'12×18 = 9×D → D = 216/9 = 24 days'},
+  {sec:'Quantitative Aptitude',text:'A train 300m long passes a pole in 15 seconds. What is its speed in km/h?',opts:['72','60','80','90'],ans:0,exp:'Speed = 300/15 = 20 m/s = 72 km/h'},
+  {sec:'Quantitative Aptitude',text:'Simple interest on ₹5000 at 8% p.a. for 3 years is?',opts:['₹1200','₹1000','₹1500','₹800'],ans:0,exp:'SI = 5000×8×3/100 = ₹1200'},
+  {sec:'Quantitative Aptitude',text:'The average of 5 consecutive even numbers is 30. The largest number is?',opts:['34','32','36','38'],ans:0,exp:'Numbers: 26,28,30,32,34. Largest = 34'},
+  {sec:'Quantitative Aptitude',text:'If 2x + 3y = 12 and 3x + 2y = 13, then x + y = ?',opts:['5','4','6','7'],ans:0,exp:'Adding: 5x+5y=25 → x+y=5'},
+  // Verbal Ability
+  {sec:'Verbal Ability',text:'Choose the correct synonym of MAGNANIMOUS:',opts:['Generous','Selfish','Cruel','Petty'],ans:0,exp:'Magnanimous means generous in forgiving, noble-minded'},
+  {sec:'Verbal Ability',text:'Choose the correct antonym of VERBOSE:',opts:['Concise','Fluent','Eloquent','Talkative'],ans:0,exp:'Verbose = using too many words; antonym = Concise'},
+  {sec:'Verbal Ability',text:'Fill in the blank: The committee ___ the proposal unanimously.',opts:['approved','approves','had approved','approve'],ans:0,exp:'Past tense fits the context here'},
+  {sec:'Verbal Ability',text:'Identify the error: "He is one of the best player in the team."',opts:['players','team','best','No error'],ans:0,exp:'"one of the best" requires plural noun: players'},
+  {sec:'Verbal Ability',text:'Choose the correctly spelled word:',opts:['Entrepreneur','Enterprenuer','Entrepeneur','Entreprenueur'],ans:0,exp:'Entrepreneur is the correct spelling'},
+  {sec:'Verbal Ability',text:'The idiom "to burn the midnight oil" means:',opts:['To work late at night','To waste resources','To cause trouble','To be careless'],ans:0,exp:'Burning midnight oil = studying/working very late'},
+];
+
+const SECTIONS = [...new Set(QUESTIONS.map(q=>q.sec))];
+const MOCKS = [
+  {id:1,title:'Mini Mock 1',sub:'22 Questions · 30 min · All Sections',tag:'FREE',tagClass:'tag-free',free:true},
+  {id:2,title:'Full Mock 2',sub:'200 Questions · 150 min · MAH CET Pattern',tag:'₹25',tagClass:'tag-paid',free:false},
+  {id:3,title:'Full Mock 3',sub:'200 Questions · 150 min · MAH CET Pattern',tag:'₹25',tagClass:'tag-paid',free:false},
+  {id:4,title:'Speed Test 4',sub:'50 Questions · 40 min · QA & LR Focus',tag:'₹25',tagClass:'tag-paid',free:false},
+  {id:5,title:'Verbal Master 5',sub:'60 Questions · 45 min · VA & RC Focus',tag:'₹25',tagClass:'tag-paid',free:false},
+  {id:6,title:'Full Mock 6',sub:'200 Questions · 150 min · MAH CET Pattern',tag:'₹25',tagClass:'tag-paid',free:false},
+];
+
+// ---- STATE ----
+let state = {page:'home',user:null,isLogin:true,currentQ:0,answers:{},visited:new Set(),marked:new Set(),timeLeft:1800,timerID:null};
+
+// ---- NAV ----
+function showPage(p){
+  document.querySelectorAll('[id^="page-"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById('page-'+p).classList.remove('hidden');
+  state.page = p;
+  if(p==='dashboard') renderDashboard();
+  if(p==='test') renderTest();
+  if(p==='auth'){
+    document.getElementById('nav-right').innerHTML = '';
+  } else if(p==='home'){
+    document.getElementById('nav-right').innerHTML = '<button class="nav-btn" onclick="showPage(\'auth\')">Login / Register</button>';
+  } else if(state.user){
+    document.getElementById('nav-right').innerHTML = `<span style="color:#aaa;margin-right:12px">${state.user}</span><button class="nav-btn" onclick="logout()">Logout</button>`;
+  }
+}
+
+// ---- AUTH ----
+let isLogin = true;
+function toggleAuth(){
+  isLogin = !isLogin;
+  document.getElementById('auth-title').textContent = isLogin ? 'Welcome Back 👋' : 'Create Account 🚀';
+  document.getElementById('auth-sub').textContent = isLogin ? 'Login to access your mocks' : 'Join 1000+ CET aspirants';
+  document.getElementById('name-group').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('auth-toggle-link').textContent = isLogin ? 'Register here' : 'Login here';
+  document.getElementById('auth-toggle-text').textContent = isLogin ? "Don't have an account? " : 'Already have an account? ';
+}
+function doAuth(){
+  const email = document.getElementById('inp-email').value;
+  const name = document.getElementById('inp-name').value || email.split('@')[0];
+  if(!email){alert('Please enter your email');return;}
+  state.user = isLogin ? email.split('@')[0] : name;
+  document.getElementById('user-name-display').textContent = state.user;
+  showPage('dashboard');
+}
+function logout(){state.user=null;showPage('home');}
+
+// ---- DASHBOARD ----
+function renderDashboard(){
+  const g = document.getElementById('mock-grid');
+  g.innerHTML = MOCKS.map(m=>`
+    <div class="mock-card">
+      <span class="tag ${m.tagClass}">${m.tag}</span>
+      <h3>${m.title}</h3>
+      <div class="mock-meta">${m.sub}</div>
+      <button class="btn-primary" onclick="${m.free ? 'showPage(\'instructions\')' : 'alert(\'Payment integration coming soon! For now, try the Free Mini Mock 1.\')'}">
+        ${m.free ? 'Start Free Mock →' : 'Buy & Attempt →'}
+      </button>
+    </div>`).join('');
+}
+
+// ---- TEST ----
+function startTest(){
+  state.currentQ=0; state.answers={}; state.visited=new Set([0]); state.marked=new Set();
+  state.timeLeft=1800;
+  if(state.timerID) clearInterval(state.timerID);
+  showPage('test');
+  state.timerID = setInterval(()=>{
+    state.timeLeft--;
+    const m=Math.floor(state.timeLeft/60), s=state.timeLeft%60;
+    const el=document.getElementById('timer-display');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(state.timeLeft<300?' warn':'');
+    if(state.timeLeft<=0){clearInterval(state.timerID);submitTest();}
+  },1000);
+}
+
+function renderTest(){
+  // Section tabs
+  const tabs = document.getElementById('section-tabs');
+  tabs.innerHTML = SECTIONS.map(s=>`<button class="sec-tab ${QUESTIONS[state.currentQ].sec===s?'active':''}" onclick="jumpToSection('${s}')">${s}</button>`).join('');
+  // Question
+  const q = QUESTIONS[state.currentQ];
+  document.getElementById('q-num-label').textContent = `Question ${state.currentQ+1}`;
+  document.getElementById('q-counter').textContent = state.currentQ+1;
+  document.getElementById('q-total').textContent = QUESTIONS.length;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-options').innerHTML = q.opts.map((o,i)=>
+    `<button class="opt${state.answers[state.currentQ]===i?' selected':''}" onclick="selectOpt(${i})">${String.fromCharCode(65+i)}. ${o}</button>`
+  ).join('');
+  // Palette
+  const pal = document.getElementById('palette');
+  pal.innerHTML = QUESTIONS.map((_,i)=>{
+    let cls='';
+    if(state.marked.has(i)) cls='marked';
+    else if(state.answers[i]!==undefined) cls='answered';
+    else if(state.visited.has(i)) cls='visited';
+    if(i===state.currentQ) cls+=' current';
+    return `<button class="p-btn ${cls}" onclick="goTo(${i})">${i+1}</button>`;
+  }).join('');
+}
+
+function selectOpt(i){state.answers[state.currentQ]=i;renderTest();}
+function clearAns(){delete state.answers[state.currentQ];renderTest();}
+function markReview(){state.marked.has(state.currentQ)?state.marked.delete(state.currentQ):state.marked.add(state.currentQ);renderTest();}
+function saveAndNext(){if(state.currentQ<QUESTIONS.length-1){state.currentQ++;state.visited.add(state.currentQ);renderTest();}}
+function prevQ(){if(state.currentQ>0){state.currentQ--;renderTest();}}
+function goTo(i){state.currentQ=i;state.visited.add(i);renderTest();}
+function jumpToSection(s){const i=QUESTIONS.findIndex(q=>q.sec===s);if(i>=0)goTo(i);}
+function confirmSubmit(){if(confirm('Are you sure you want to submit the test?'))submitTest();}
+
+// ---- SUBMIT ----
+function submitTest(){
+  clearInterval(state.timerID);
+  let correct=0,wrong=0,skip=0;
+  const secData={};
+  SECTIONS.forEach(s=>secData[s]={c:0,t:0});
+  QUESTIONS.forEach((q,i)=>{
+    secData[q.sec].t++;
+    if(state.answers[i]===undefined) skip++;
+    else if(state.answers[i]===q.ans){correct++;secData[q.sec].c++;}
+    else wrong++;
+  });
+  const total=QUESTIONS.length;
+  const acc=Math.round(correct/(total-skip||1)*100)||0;
+  const pct = correct>=20?'99+':(correct>=18?'98-99':(correct>=15?'90-95':(correct>=12?'80-90':'Below 80')));
+  document.getElementById('final-score').textContent=correct;
+  document.getElementById('max-score').textContent=total;
+  document.getElementById('stat-correct').textContent=correct;
+  document.getElementById('stat-wrong').textContent=wrong;
+  document.getElementById('stat-skip').textContent=skip;
+  document.getElementById('stat-acc').textContent=acc+'%';
+  document.getElementById('stat-pct').textContent=pct;
+  // Section bars
+  const colors=['#6c63ff','#22c55e','#f59e0b','#ef4444'];
+  document.getElementById('section-bars-content').innerHTML=SECTIONS.map((s,i)=>{
+    const d=secData[s]; const pct=d.t?Math.round(d.c/d.t*100):0;
+    return `<div class="bar-row">
+      <div class="bar-label"><span>${s}</span><span>${d.c}/${d.t} (${pct}%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${colors[i]}"></div></div>
+    </div>`;
+  }).join('');
+  // Review
+  document.getElementById('review-content').innerHTML=QUESTIONS.map((q,i)=>{
+    const ua=state.answers[i];
+    const status=ua===undefined?'skipped':(ua===q.ans?'correct':'wrong');
+    return `<div class="review-item">
+      <div class="r-q">Q${i+1}. ${q.text}</div>
+      <div class="r-ans">
+        <span class="${status}">${status==='skipped'?'⚪ Skipped':(status==='correct'?'✅ Correct':'❌ Wrong')}</span>
+        ${ua!==undefined?`<span>Your answer: ${q.opts[ua]}</span>`:''}
+        <span class="correct">Correct: ${q.opts[q.ans]}</span>
+      </div>
+      <div class="exp">💡 ${q.exp}</div>
+    </div>`;
+  }).join('');
+  showPage('analysis');
+}
+
+// ---- INIT ----
+showPage('home');
+</script>
+</body>
+</html>
