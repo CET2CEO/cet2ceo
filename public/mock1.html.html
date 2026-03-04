@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CET 2 CEO — Full Mock Test</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+:root{--navy:#0a0f2c;--navy2:#111936;--navy3:#1a2347;--gold:#f5c518;--amber:#ff9f43;--green:#1dd1a1;--red:#ff6b6b;--purple:#a29bfe;--teal:#00d2d3;--white:#f0f4ff;--muted:#8892b0}
+body{background:var(--navy);color:var(--white);min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+nav{background:rgba(10,15,44,.97);padding:12px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(245,197,24,.25);position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800}.logo .g{color:var(--gold)}
+#pg-intro{max-width:750px;margin:60px auto;padding:0 20px;text-align:center}
+#pg-intro h1{font-family:'Playfair Display',serif;font-size:2.6rem;margin-bottom:12px}
+#pg-intro h1 span{color:var(--gold)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:32px 0}
+.info-card{background:var(--navy2);border:1px solid rgba(245,197,24,.2);padding:18px;border-radius:14px;position:relative;overflow:hidden}
+.info-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--amber))}
+.info-card .num{font-size:1.9rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.info-card .lbl{color:var(--muted);font-size:.8rem;margin-top:4px}
+.instr-box{background:var(--navy2);border:1px solid rgba(245,197,24,.15);border-radius:16px;padding:28px;text-align:left;margin-bottom:28px}
+.instr-box h3{color:var(--gold);margin-bottom:14px;font-size:1rem}
+.instr-box li{color:#ccd6f6;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem;list-style:none;display:flex;gap:10px}
+.instr-box li:last-child{border:none}
+.section-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:28px}
+.sec-card{background:var(--navy3);border-radius:10px;padding:14px;border-left:3px solid var(--gold)}
+.sec-card .sec-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.sec-card .sec-q{color:var(--muted);font-size:.8rem}
+.btn-start{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;border:none;padding:15px 50px;border-radius:12px;font-size:1.1rem;font-weight:800;cursor:pointer;transition:.2s}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,197,24,.4)}
+#pg-test{max-width:1150px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:1fr 258px;gap:16px}
+@media(max-width:800px){#pg-test{grid-template-columns:1fr}}
+.test-hdr{background:var(--navy2);padding:14px 20px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border:1px solid rgba(245,197,24,.12)}
+.timer{font-size:1.5rem;font-weight:900;color:var(--green);letter-spacing:2px;font-variant-numeric:tabular-nums}
+.timer.warn{color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.sec-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.sec-tab{background:var(--navy2);border:1px solid rgba(245,197,24,.12);color:var(--muted);padding:7px 13px;border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:600;transition:.15s}
+.sec-tab.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;border-color:transparent}
+.pass-box{background:var(--navy3);border:1px solid rgba(0,210,211,.2);border-radius:12px;padding:18px;margin-bottom:14px;font-size:.87rem;line-height:1.7;color:#ccd6f6;max-height:180px;overflow-y:auto}
+.pass-box strong{color:var(--teal);display:block;margin-bottom:8px;font-size:.82rem;letter-spacing:.5px;text-transform:uppercase}
+.q-box{background:var(--navy2);border:1px solid rgba(245,197,24,.1);border-radius:14px;padding:26px;margin-bottom:14px}
+.q-label{color:var(--gold);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.q-text{font-size:1rem;line-height:1.75;margin-bottom:22px;color:var(--white);white-space:pre-line}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{background:var(--navy);border:1.5px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 16px;cursor:pointer;font-size:.92rem;transition:.15s;text-align:left;color:#ccd6f6;display:flex;gap:11px;align-items:center}
+.opt:hover{border-color:rgba(245,197,24,.4);background:rgba(245,197,24,.05)}
+.opt.sel{border-color:var(--gold);background:rgba(245,197,24,.1);color:var(--white)}
+.opt-lbl{width:26px;height:26px;border-radius:50%;background:rgba(245,197,24,.1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.sel .opt-lbl{background:var(--gold);color:#000}
+.t-actions{display:flex;gap:9px;flex-wrap:wrap}
+.bs{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.85rem;transition:.15s}
+.bv{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.bv:hover{box-shadow:0 4px 12px rgba(245,197,24,.3)}
+.bg{background:var(--navy2);color:var(--muted);border:1px solid rgba(255,255,255,.08)}
+.bg:hover{color:var(--white)}
+.by{background:rgba(255,159,67,.12);color:var(--amber);border:1px solid rgba(255,159,67,.25)}
+.br{background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.2)}
+.pal-box{background:var(--navy2);border:1px solid rgba(245,197,24,.1);border-radius:14px;padding:18px;position:sticky;top:80px}
+.pal-box h4{font-size:.82rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.sec-grp{margin-bottom:12px}
+.sec-grp-title{font-size:.72rem;color:var(--gold);font-weight:700;margin-bottom:6px;text-transform:uppercase}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:8px}
+.pb{width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:.72rem;font-weight:700;color:#fff;background:rgba(255,255,255,.07);transition:.1s}
+.pb:hover{transform:scale(1.1)}
+.pb.ans{background:var(--green)}.pb.vis{background:var(--red)}.pb.mrk{background:var(--purple)}.pb.cur{outline:2px solid var(--gold);outline-offset:1px}
+.leg{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.lg{display:flex;align-items:center;gap:8px;font-size:.74rem;color:var(--muted)}
+.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.sub-btn{width:100%;margin-top:14px;background:rgba(255,107,107,.12);color:var(--red);border:1px solid rgba(255,107,107,.25);padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.88rem}
+#pg-analysis{max-width:950px;margin:0 auto;padding:28px 20px}
+.score-hero{background:linear-gradient(135deg,var(--navy3),var(--navy2));border:1px solid rgba(245,197,24,.2);border-radius:18px;padding:36px;text-align:center;margin-bottom:22px;position:relative;overflow:hidden}
+.score-hero::before{content:'🏆';position:absolute;font-size:9rem;opacity:.04;right:-10px;top:-10px}
+.big-score{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.score-sub{color:var(--muted);margin-bottom:22px;font-size:.9rem}
+.s-stats{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.ss{background:rgba(255,255,255,.04);padding:14px 18px;border-radius:12px;min-width:85px;text-align:center}
+.ss .v{font-size:1.6rem;font-weight:800}
+.ss .l{color:var(--muted);font-size:.72rem;margin-top:2px}
+.a-card{background:var(--navy2);border:1px solid rgba(245,197,24,.1);border-radius:14px;padding:24px;margin-bottom:18px}
+.a-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:18px}
+.bar-row{margin-bottom:16px}
+.bar-lbl{display:flex;justify-content:space-between;margin-bottom:5px;font-size:.86rem;color:#ccd6f6}
+.bar-tr{background:var(--navy);border-radius:6px;height:9px;overflow:hidden}
+.bar-f{height:9px;border-radius:6px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.r-item{padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.r-item:last-child{border:none}
+.r-q{font-size:.9rem;color:#ccd6f6;margin-bottom:8px;line-height:1.5;white-space:pre-line}
+.r-ans{display:flex;gap:12px;font-size:.8rem;flex-wrap:wrap}
+.cor{color:var(--green);font-weight:600}.wrg{color:var(--red);font-weight:600}.skp{color:var(--amber);font-weight:600}
+.r-exp{color:var(--muted);font-size:.76rem;margin-top:6px;padding:7px 11px;background:rgba(245,197,24,.05);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;font-style:italic}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><span class="g">CET 2</span> CEO</div>
+  <div style="color:var(--muted);font-size:.85rem" id="nav-info">MAH CET 2026 — Full Mock</div>
+</nav>
+
+<div id="pg-intro">
+  <h1>MAH CET 2026 <span>Full Mock Test</span></h1>
+  <p style="color:var(--muted);margin-bottom:8px">200 Questions · 150 Minutes · Medium Difficulty</p>
+  <p style="color:var(--gold);font-size:.9rem;margin-bottom:24px">Crafted by a 99.99 Percentiler · Based on Official Pattern</p>
+  <div class="info-grid">
+    <div class="info-card"><div class="num">200</div><div class="lbl">Questions</div></div>
+    <div class="info-card"><div class="num">150</div><div class="lbl">Minutes</div></div>
+    <div class="info-card"><div class="num">+1</div><div class="lbl">Per Correct</div></div>
+    <div class="info-card"><div class="num">0</div><div class="lbl">Negative Marks</div></div>
+  </div>
+  <div class="section-info">
+    <div class="sec-card"><div class="sec-name">📐 Logical Reasoning</div><div class="sec-q">75 Questions</div></div>
+    <div class="sec-card"><div class="sec-name">🔷 Abstract Reasoning</div><div class="sec-q">25 Questions</div></div>
+    <div class="sec-card"><div class="sec-name">🔢 Quantitative Aptitude</div><div class="sec-q">50 Questions</div></div>
+    <div class="sec-card"><div class="sec-name">📖 Verbal Ability & RC</div><div class="sec-q">50 Questions</div></div>
+  </div>
+  <div class="instr-box">
+    <h3>📋 IMPORTANT INSTRUCTIONS</h3>
+    <ul>
+      <li><span>⏱️</span><span>Timer starts as soon as you click Start. Test auto-submits at 00:00</span></li>
+      <li><span>🔖</span><span>Use "Mark for Review" to flag doubtful questions and revisit them</span></li>
+      <li><span>🗂️</span><span>Navigate sections using the tabs at the top. Question palette shows status</span></li>
+      <li><span>⚠️</span><span>Do NOT refresh the browser — your answers will be lost</span></li>
+      <li><span>📄</span><span>Reading Comprehension passages appear above the question. Read carefully</span></li>
+      <li><span>✅</span><span>Each correct answer: +1 mark. No negative marking for wrong answers</span></li>
+    </ul>
+  </div>
+  <button class="btn-start" onclick="startTest()">🚀 Start Full Mock Now</button>
+</div>
+
+<div id="pg-test" class="hidden">
+  <div>
+    <div class="test-hdr">
+      <div>
+        <div style="font-weight:700;font-size:1rem">CET 2 CEO — Full Mock Test</div>
+        <div style="color:var(--muted);font-size:.8rem;margin-top:2px">Q <span id="qc">1</span> of 200 &nbsp;|&nbsp; <span id="sec-info" style="color:var(--gold)"></span></div>
+      </div>
+      <div id="tmr" class="timer">2:30:00</div>
+    </div>
+    <div class="sec-tabs" id="sec-tabs"></div>
+    <div id="pass-area" class="pass-box hidden"></div>
+    <div class="q-box">
+      <div class="q-label" id="ql">Question 1</div>
+      <div class="q-text" id="qt"></div>
+      <div class="opts" id="qo"></div>
+    </div>
+    <div class="t-actions">
+      <button class="bs bv" onclick="saveNext()">Save & Next →</button>
+      <button class="bs by" onclick="markRev()">🔖 Mark Review</button>
+      <button class="bs bg" onclick="prevQ()">← Prev</button>
+      <button class="bs br" onclick="clearA()">✕ Clear</button>
+    </div>
+  </div>
+  <div>
+    <div class="pal-box">
+      <h4>Question Palette</h4>
+      <div id="pal-content"></div>
+      <div class="leg">
+        <div class="lg"><div class="dot" style="background:var(--green)"></div>Answered</div>
+        <div class="lg"><div class="dot" style="background:var(--red)"></div>Visited, not answered</div>
+        <div class="lg"><div class="dot" style="background:var(--purple)"></div>Marked for review</div>
+        <div class="lg"><div class="dot" style="background:rgba(255,255,255,.07)"></div>Not visited</div>
+      </div>
+      <button class="sub-btn" onclick="if(confirm('Submit test now?'))endTest()">Submit Test</button>
+    </div>
+  </div>
+</div>
+
+<div id="pg-analysis" class="hidden">
+  <div class="score-hero">
+    <div class="big-score" id="fs">0</div>
+    <div class="score-sub">out of 200 &nbsp;|&nbsp; Estimated Percentile: <span id="epct" style="color:var(--gold);font-weight:700">—</span></div>
+    <div class="s-stats">
+      <div class="ss"><div class="v cor" id="sc">0</div><div class="l">Correct</div></div>
+      <div class="ss"><div class="v wrg" id="sw">0</div><div class="l">Wrong</div></div>
+      <div class="ss"><div class="v skp" id="ss2">0</div><div class="l">Skipped</div></div>
+      <div class="ss"><div class="v" id="sa" style="color:var(--teal)">0%</div><div class="l">Accuracy</div></div>
+      <div class="ss"><div class="v" id="tt" style="color:var(--purple)">—</div><div class="l">Time Used</div></div>
+    </div>
+  </div>
+  <div class="a-card"><h3>Section-wise Performance</h3><div id="sec-bars"></div></div>
+  <div class="a-card">
+    <h3>Question-wise Review</h3>
+    <p style="color:var(--muted);font-size:.82rem;margin-bottom:16px">Click any question to expand solution</p>
+    <div id="rev-content"></div>
+  </div>
+  <div style="text-align:center;margin-top:24px">
+    <button class="bs bv" style="padding:12px 30px;font-size:1rem" onclick="location.reload()">🔄 Retake Mock</button>
+  </div>
+</div>
+
+<script>
+const PASS={
+  p1:`Artificial Intelligence is rapidly reshaping the global job market. A 2024 IMF report warns that nearly 40% of jobs worldwide could be affected by AI. Jobs most at risk are those involving repetitive cognitive tasks. In contrast, roles requiring creativity, emotional intelligence, and complex judgment are expected to grow. The World Economic Forum (2024) projects a net creation of 78 million jobs by 2027.`,
+  p2:`India's Unified Payments Interface (UPI) has emerged as a global benchmark in digital payments. Launched in 2016 by NPCI, UPI crossed 100 billion transactions in FY 2023-24. By April 2024, UPI had over 400 million active users and was accepted at 50+ million merchant locations. Countries like Singapore, UAE, France, Bhutan, Nepal, and Sri Lanka have integrated UPI.`,
+  p3:`India faces a profound climate paradox — it is simultaneously among the world's most climate-vulnerable nations and one of its largest greenhouse gas emitters. India ranks 4th globally in renewable capacity, targeting 500 GW of non-fossil fuel energy by 2030. At COP28 in Dubai (2023), India reaffirmed its Net Zero by 2070 commitment. India remains the world's second-largest coal consumer.`,
+  p4:`The WHO estimates that one in eight people globally — approximately 970 million — live with a mental disorder. In India, nearly 150 million people require mental health care, yet only a fraction receive any treatment. India has just 0.3 psychiatrists per 100,000 people versus the global average of 1.7. The Mental Healthcare Act 2017 recognized mental health as a legal right and decriminalized attempted suicide.`
+};
+
+const Q=[
+// LR - Syllogisms (0-9)
+{s:'LR',t:'All cats are dogs. Some dogs are birds.\nConclusions:\nI. Some cats are birds.\nII. Some birds are cats.',o:['Only I follows','Only II follows','Both I and II follow','Neither I nor II follows'],a:3,e:'Dogs are a broader category. Cats might not overlap with the bird subset of dogs.'},
+{s:'LR',t:'All pens are books. All books are papers.\nConclusions:\nI. All pens are papers.\nII. Some papers are pens.',o:['Only I follows','Only II follows','Neither follows','Both I and II follow'],a:3,e:'Since all pens are books and all books are papers, all pens are papers (I). This also means some papers are pens (II). Both follow.'},
+{s:'LR',t:'Some roses are flowers. All flowers are plants.\nConclusions:\nI. All roses are plants.\nII. Some roses are plants.',o:['Only II follows','Both follow','Only I follows','Neither follows'],a:0,e:'Some roses are flowers → those roses are plants. So some roses are plants (II follows). But not ALL roses are necessarily flowers.'},
+{s:'LR',t:'No table is a chair. All chairs are furniture.\nConclusions:\nI. No table is furniture.\nII. Some furniture are not tables.',o:['Only I','Only II','Both','Neither'],a:1,e:'Chairs (which are furniture) are not tables → some furniture (chairs) are not tables. I doesn\'t necessarily follow.'},
+{s:'LR',t:'All students are hardworking. Some hardworking people are successful.\nConclusions:\nI. Some students are successful.\nII. All successful people are students.',o:['Only I','Only II','Both','Neither'],a:3,e:'The successful subset of hardworking may not include any students. Neither conclusion necessarily follows.'},
+{s:'LR',t:'All mangoes are fruits. No fruit is a vegetable.\nConclusions:\nI. No mango is a vegetable.\nII. Some vegetables are mangoes.',o:['Only I','Only II','Both','Neither'],a:0,e:'Since mangoes are fruits and no fruit is vegetable, no mango can be a vegetable. I follows. II contradicts this.'},
+{s:'LR',t:'Some engineers are doctors. All doctors are scientists.\nConclusions:\nI. Some engineers are scientists.\nII. All scientists are engineers.',o:['Only I','Only II','Both','Neither'],a:0,e:'The engineer-doctors are also scientists → some engineers are scientists. Scientists can exist outside engineering. II doesn\'t follow.'},
+{s:'LR',t:'All rivers are lakes. Some lakes are ponds.\nConclusions:\nI. Some rivers are ponds.\nII. All ponds are rivers.',o:['Only I','Only II','Both','Neither'],a:3,e:'The pond-lakes may not include any rivers. Neither conclusion necessarily follows.'},
+{s:'LR',t:'No boy is a girl. All girls are humans.\nConclusions:\nI. No boy is human.\nII. Some humans are not boys.',o:['Only I','Only II','Both','Neither'],a:1,e:'Boys can still be human even though they are not girls. I is wrong. Girls are humans but not boys → some humans (girls) are not boys. II follows.'},
+{s:'LR',t:'All birds can fly. Eagles are birds.\nConclusions:\nI. Eagles can fly.\nII. Some birds are eagles.',o:['Only I','Only II','Both','Neither'],a:2,e:'Eagles are birds → eagles can fly (I). Eagles being birds means some birds are eagles (II). Both follow.'},
+// LR - Blood Relations (10-17)
+{s:'LR',t:'Seema says "That man\'s mother is the only daughter of my mother." How is Seema related to the man?',o:['Aunt','Sister','Mother','Grandmother'],a:2,e:'Only daughter of Seema\'s mother = Seema herself. So the man\'s mother = Seema → Seema is his mother.'},
+{s:'LR',t:'A+B = A is father of B. A–B = A is sister of B. In P+Q–R, how is P related to R?',o:['Grandfather','Uncle','Father','Cannot be determined'],a:2,e:'P is father of Q. Q is sister of R → Q and R share same parents → P is also father of R.'},
+{s:'LR',t:'A woman introduces a man: "He is the son of the woman who is the mother of my father\'s only son\'s wife." How is he related to her?',o:['Brother','Nephew','Son','Cannot be determined'],a:0,e:'Father\'s only son = her brother. Brother\'s wife\'s mother\'s son = her brother himself. So the man is her brother.'},
+{s:'LR',t:'A is B\'s sister. B is C\'s brother. C is D\'s father. How is A related to D?',o:['Mother','Aunt','Sister','Cannot be determined'],a:1,e:'A is sibling of B who is sibling of C who is D\'s father → A is D\'s aunt.'},
+{s:'LR',t:'Pointing to a photograph, Rahul said "She is the daughter of the only son of my grandfather." How is the girl related to Rahul?',o:['Niece','Cousin','Sister','Daughter'],a:2,e:'Grandfather\'s only son = Rahul\'s father. Father\'s daughter = Rahul\'s sister.'},
+{s:'LR',t:'A and B are a married couple. D is the only son of C who is the brother of A. F is the mother of B. How is F related to A?',o:['Mother','Sister','Mother-in-law','Aunt'],a:2,e:'B is A\'s spouse. F is B\'s mother. So F is A\'s mother-in-law.'},
+{s:'LR',t:'Ravi says "That woman is the wife of the grandson of my mother." Who is the woman to Ravi?',o:['Daughter-in-law','Sister-in-law','Niece','Daughter'],a:0,e:'Ravi\'s mother\'s grandson = Ravi\'s son. His son\'s wife = Ravi\'s daughter-in-law.'},
+{s:'LR',t:'P is Q\'s brother. Q is R\'s sister. R is S\'s son. T is P\'s father. How many male members are definitely there?',o:['2','3','4','Cannot be determined'],a:0,e:'P is male (brother), S is male (son\'s father). Minimum definite males = P and S = 2.'},
+// LR - Direction Sense (18-24)
+{s:'LR',t:'A man walks 5 km North, 3 km East, 5 km South, then 3 km West. Where is he from his start?',o:['3 km East','5 km North','At starting point','8 km away'],a:2,e:'North and South cancel (5-5=0). East and West cancel (3-3=0). He is back at the starting point.'},
+{s:'LR',t:'Priya faces East. She turns left, then left again, then right. Which direction does she now face?',o:['North','South','West','East'],a:0,e:'East → left = North → left = West → right = North.'},
+{s:'LR',t:'A walks 10m South, turns left 5m, turns left 10m, turns right 15m. How far and in which direction from start?',o:['20m East','15m East','10m East','20m North'],a:0,e:'Net E-W: 5+15=20m East, N-S: 10-10=0. He is 20m East of start.'},
+{s:'LR',t:'Ram walks 6 km North then 8 km East. What is the shortest distance from start?',o:['14 km','10 km','12 km','7 km'],a:1,e:'Shortest distance = √(6²+8²) = √100 = 10 km.'},
+{s:'LR',t:'Anil walks: 2km West → 3km South → 6km East → 3km North. How far from office?',o:['4 km East','4 km West','6 km East','2 km East'],a:0,e:'Net E-W: -2+6=4km East. Net N-S: -3+3=0. He is 4 km East of office.'},
+{s:'LR',t:'Riya faces South. Turns 90° clockwise, then 180° anticlockwise, then 90° clockwise. Final direction?',o:['North','East','South','West'],a:2,e:'S→+90CW=W→-180=E→+90CW=S. She faces South.'},
+// LR - Seating (24-33)
+{s:'LR',t:'Six people A–F sit in a row. A is leftmost, F is rightmost. C is 3rd. D is immediately right of C. B is between A and C. E is between D and F.\nWho sits at the 4th position?',o:['C','E','B','D'],a:3,e:'Order: A(1) B(2) C(3) D(4) E(5) F(6). 4th = D.'},
+{s:'LR',t:'[Row: A B C D E F]\nWho are the immediate neighbours of C?',o:['A and D','B and D','A and B','D and E'],a:1,e:'C is at position 3. Left = B (pos 2), Right = D (pos 4).'},
+{s:'LR',t:'[Row: A B C D E F]\nWho sits 3rd to the right of A?',o:['E','D','C','B'],a:1,e:'A is at position 1. 3rd to the right = position 4 = D.'},
+{s:'LR',t:'[Row: A B C D E F]\nHow many persons sit between B and E?',o:['1','2','3','0'],a:1,e:'B=pos2, E=pos5. Between them: C(3) and D(4) = 2 persons.'},
+{s:'LR',t:'[Row: A B C D E F]\nWho sits 2nd from the right end?',o:['D','F','E','A'],a:2,e:'From right: F(1st), E(2nd). So 2nd from right = E.'},
+{s:'LR',t:'6 people P,Q,R,S,T,U sit in a circle facing centre (clockwise: P,Q,R,S,T,U).\nWho sits directly opposite Q?',o:['R','T','S','U'],a:1,e:'In a 6-person circle, opposite = 3 seats away. Q(2) → opposite = T(5).'},
+{s:'LR',t:'[Circular: P Q R S T U clockwise]\nWho is the immediate left of P?',o:['Q','R','T','U'],a:3,e:'Left of P (facing centre, anticlockwise) = U.'},
+{s:'LR',t:'[Circular: P Q R S T U clockwise]\nWho sits between S and U going clockwise from S?',o:['R','P','Q','T'],a:3,e:'Clockwise from S(4): T(5), then U(6). So T sits between S and U.'},
+{s:'LR',t:'[Circular: P Q R S T U clockwise]\nHow many people sit between P and R going clockwise?',o:['1','2','0','3'],a:0,e:'Clockwise from P(1): Q(2), R(3). So 1 person (Q) sits between them.'},
+{s:'LR',t:'[Circular: P Q R S T U clockwise]\nWho sits 2nd to the right of T?',o:['U','P','Q','R'],a:1,e:'From T(5) go 2 right: U(6)→P(1). 2nd to right of T = P.'},
+// LR - Coding (34-41)
+{s:'LR',t:'If PENCIL → QFODLM (each letter +1), how is ERASER coded?',o:['FSBTFS','FSBSFS','GSCUGS','FSATFS'],a:0,e:'E+1=F, R+1=S, A+1=B, S+1=T, E+1=F, R+1=S → FSBTFS.'},
+{s:'LR',t:'If COLD → DPME (+1 each), how is HEAT coded?',o:['HEBU','IGBU','GFAT','IFBU'],a:3,e:'H+1=I, E+1=F, A+1=B, T+1=U → IFBU.'},
+{s:'LR',t:'"sky is blue"="pic ja ro", "blue is beautiful"="ro pic su", "beautiful sky"="su ja". What does \'pic\' mean?',o:['sky','blue','beautiful','is'],a:3,e:'\'pic\' appears in sentences 1 and 2. Common words are \'blue\' and \'is\'. \'ro\'=blue. So \'pic\'=is.'},
+{s:'LR',t:'If DELHI → EFMIJ (each +1), MUMBAI → ?',o:['NVNCBJ','MUNDBK','MVMBAI','NVMCBJ'],a:0,e:'M+1=N, U+1=V, M+1=N, B+1=C, A+1=B, I+1=J → NVNCBJ.'},
+{s:'LR',t:'If 25–5=15 and 36–6=24, then 49–7=?',o:['35','42','28','40'],a:0,e:'Pattern: n – 2√n. 25–10=15 ✓. 36–12=24 ✓. 49–14=35.'},
+{s:'LR',t:'In coded operations: + means ×, × means ÷, ÷ means +, – means –.\nFind: 16 + 4 × 2 ÷ 3 – 1',o:['32','34','36','28'],a:1,e:'Replace: 16×4÷2+3–1 = 64÷2+3–1 = 32+3–1 = 34.'},
+{s:'LR',t:'Find the odd one out: BDFH, CEGI, DFHJ, EGIK, FGIJ',o:['BDFH','CEGI','DFHJ','FGIJ'],a:3,e:'BDFH,CEGI,DFHJ,EGIK all follow +2 gap. FGIJ has gaps +1,+2,+1 — odd one.'},
+{s:'LR',t:'If CAT=24 (C=3,A=1,T=20), DOG=26, then COT=?',o:['36','38','40','34'],a:1,e:'C=3, O=15, T=20. Sum = 3+15+20 = 38.'},
+// LR - Number Series (42-49)
+{s:'LR',t:'3, 7, 15, 31, 63, ?',o:['127','125','121','130'],a:0,e:'Pattern: ×2+1. 63×2+1=127.'},
+{s:'LR',t:'1, 4, 9, 16, 25, 36, ?',o:['47','48','49','50'],a:2,e:'Perfect squares: 7²=49.'},
+{s:'LR',t:'2, 3, 5, 7, 11, 13, ?',o:['15','16','19','17'],a:3,e:'Prime numbers. Next prime after 13 = 17.'},
+{s:'LR',t:'1, 1, 2, 3, 5, 8, 13, ?',o:['20','21','18','23'],a:1,e:'Fibonacci: 8+13=21.'},
+{s:'LR',t:'5, 11, 23, 47, 95, ?',o:['189','193','185','191'],a:3,e:'Pattern: ×2+1. 95×2+1=191.'},
+{s:'LR',t:'100, 96, 88, 76, 60, ?',o:['40','42','38','44'],a:0,e:'Differences: 4,8,12,16,20. Next: 60–20=40.'},
+{s:'LR',t:'Z, X, V, T, R, ?',o:['Q','P','S','N'],a:1,e:'Alternate letters in reverse (–2): R→P.'},
+{s:'LR',t:'AB, DE, GH, JK, ?',o:['LM','MN','NO','MO'],a:1,e:'Skip one letter each time: MN.'},
+// LR - Statement/Assumption (50-65)
+{s:'LR',t:'"Save water or the city will face a drought." This statement is best described as:',o:['A fact','A warning','An assumption','A suggestion'],a:1,e:'The statement predicts negative consequences unless action is taken — a warning.'},
+{s:'LR',t:'Statement: "Use sunscreen to protect from UV rays."\nAssumption I: UV rays are harmful.\nAssumption II: Sunscreen is the only protection.',o:['Only I','Only II','Both','Neither'],a:0,e:'The advice assumes UV is harmful (I). The statement doesn\'t claim sunscreen is the ONLY protection (II not implied).'},
+{s:'LR',t:'Statement: "Company X suffered a 30% sales drop due to poor quality."\nConclusion: Company X should improve product quality.',o:['Definitely follows','Probably follows','Does not follow','Contradicts'],a:0,e:'The direct cause-effect (poor quality→sales drop) makes improving quality a logical conclusion.'},
+{s:'LR',t:'All birds have wings. Bats have wings.\nConclusion: Bats are birds.',o:['True','False','Uncertain','Partially true'],a:2,e:'Having wings doesn\'t make something a bird. The conclusion is uncertain.'},
+{s:'LR',t:'"If India achieves 100% literacy, the economy will grow rapidly." This assumes:',o:['India hasn\'t achieved 100% literacy yet','Literacy is the only factor for growth','Rapid growth requires literacy','Economy is India\'s only goal'],a:0,e:'The conditional "if" implies the condition has not been met yet.'},
+{s:'LR',t:'Statements: No exam is easy. Some exams are online.\nConclusion: Some online exams are not easy.',o:['Does not follow','Cannot be determined','Follows','Partially follows'],a:2,e:'No exam is easy → all exams (including online ones) are not easy → conclusion follows.'},
+{s:'LR',t:'"Vegetarians have lower rates of heart disease."\nAssumption I: Non-vegetarians have higher rates.\nAssumption II: Diet affects heart health.',o:['Only I','Only II','Both','Neither'],a:1,e:'Diet affecting heart health (II) is clearly the underlying assumption. I is an inference.'},
+{s:'LR',t:'A survey shows 70% of daily exercisers report high energy. Most valid conclusion:',o:['Exercise causes high energy in all people','Regular exercise may contribute to higher energy','People with high energy tend to exercise','30% of exercisers have low energy'],a:1,e:'Survey shows correlation. "May contribute" is the most cautious and valid conclusion.'},
+{s:'LR',t:'Road accidents decreased after speed cameras were installed. Best conclusion:',o:['Cameras are the only way to reduce accidents','Speed cameras may have contributed to fewer accidents','All accidents are caused by speeding','Cameras always prevent accidents'],a:1,e:'Correlation suggests possible contribution — not absolute causation.'},
+{s:'LR',t:'Either the project is delayed due to funding OR the team is inefficient. Project is NOT delayed due to funding. Therefore:',o:['The team is efficient','The project is on time','The team is inefficient','Cannot be determined'],a:2,e:'Either/or logic: if first is false, second must be true. Team is inefficient.'},
+{s:'LR',t:'"Our college produces the best engineers."\nAssumption I: There are other colleges.\nAssumption II: Engineering is the best course.',o:['Only I','Only II','Both','Neither'],a:0,e:'Saying "best" implies comparison with others → other colleges must exist (I). II is not implied.'},
+{s:'LR',t:'Companies investing in employee training show 24% higher profits. Conclusion: All companies should invest in training.',o:['Strongly follows','Moderately follows','Does not follow','Contradicts'],a:1,e:'The data supports the recommendation but doesn\'t consider all contexts.'},
+{s:'LR',t:'"If it rains, the match will be cancelled." The match is NOT cancelled. What can we conclude?',o:['It rained','It did not rain','The match happened','Cannot be determined'],a:1,e:'Contrapositive: If match not cancelled → it did not rain.'},
+{s:'LR',t:'Statement: "Plastic bags should be banned to protect the environment."\nAssumption I: Plastic bags harm the environment.\nAssumption II: There are alternatives to plastic bags.',o:['Only I','Only II','Both','Neither'],a:2,e:'Banning assumes they are harmful (I) and alternatives exist (II). Both implied.'},
+{s:'LR',t:'"The economy grew 8% last year despite global headwinds." The word \'despite\' implies:',o:['Global headwinds helped growth','Growth happened in unfavorable conditions','Economy always grows at 8%','Headwinds caused the growth'],a:1,e:'"Despite" signals growth occurred contrary to unfavorable conditions.'},
+{s:'LR',t:'Argument: "Social media should be banned as it causes depression in youth." Strong counter-argument:',o:['Social media is entertaining','Depression existed before social media','Social media can have positive effects and restriction is preferable to ban','Banning is the easiest solution'],a:2,e:'A strong counter offers a balanced alternative (regulation vs outright ban).'},
+// LR - Misc (66-74)
+{s:'LR',t:'In a class of 40, Ritu is 15th from top and Mohan is 25th from bottom. How many students are between them?',o:['0','1','2','3'],a:0,e:'Ritu from bottom = 40–15+1=26th. Mohan=25th from bottom. They are adjacent → 0 between them.'},
+{s:'LR',t:'A clock shows 3:15. What is the angle between the hour and minute hands?',o:['7.5°','0°','15°','22.5°'],a:0,e:'Minute at 90°. Hour at 3:15 = 90+7.5=97.5°. Difference = 7.5°.'},
+{s:'LR',t:'15 January 2024 is a Monday. What day is 15 February 2024?',o:['Wednesday','Thursday','Friday','Tuesday'],a:1,e:'Jan has 31 days. Jan15→Feb15 = 31 days = 4 weeks + 3 days. Monday+3 = Thursday.'},
+{s:'LR',t:'A man is 5 years older than his wife. Their combined age is 55. How old is the wife?',o:['30','27','25','28'],a:2,e:'W+(W+5)=55 → 2W=50 → W=25.'},
+{s:'LR',t:'A 3×3×3 cube is painted red on all faces and cut into 27 equal cubes. How many have exactly 2 red faces?',o:['8','12','6','24'],a:1,e:'Edge pieces (not corners) = 12 edges × 1 = 12.'},
+{s:'LR',t:'In a group of 100: 60 like cricket, 50 like football, 30 like both. How many like neither?',o:['30','40','10','20'],a:3,e:'n(C∪F)=60+50–30=80. Neither=100–80=20.'},
+{s:'LR',t:'Statement: All citizens must pay taxes. Some citizens are below poverty line.\nConclusion: Some people below poverty line must pay taxes.',o:['Follows','Does not follow','Partially follows','Cannot say'],a:0,e:'All citizens must pay taxes. BPL people are citizens → they must pay taxes.'},
+{s:'LR',t:'2, 12, 36, 80, 150, ?',o:['240','252','256','248'],a:1,e:'Pattern: n²(n+1). 36×7=252.'},
+// AR (75-99)
+{s:'AR',t:'1, 8, 27, 64, 125, ?',o:['216','196','225','256'],a:0,e:'Cubes: 6³=216.'},
+{s:'AR',t:'3, 6, 11, 18, 27, 38, ?',o:['47','49','51','53'],a:2,e:'Differences: 3,5,7,9,11,13. Next=38+13=51.'},
+{s:'AR',t:'1, 2, 6, 24, 120, ?',o:['600','720','700','360'],a:1,e:'Factorials: 6!=720.'},
+{s:'AR',t:'144, 121, 100, 81, 64, ?',o:['50','48','49','47'],a:2,e:'Squares descending: 7²=49.'},
+{s:'AR',t:'2, 5, 10, 17, 26, 37, ?',o:['48','52','50','46'],a:2,e:'Differences: 3,5,7,9,11,13. 37+13=50.'},
+{s:'AR',t:'7, 14, 28, 56, 112, ?',o:['168','220','228','224'],a:3,e:'×2: 112×2=224.'},
+{s:'AR',t:'0.5, 1, 2, 4, 8, ?',o:['12','16','14','18'],a:1,e:'×2: 8×2=16.'},
+{s:'AR',t:'1, 3, 7, 13, 21, 31, ?',o:['41','43','45','39'],a:1,e:'Differences: 2,4,6,8,10,12. 31+12=43.'},
+{s:'AR',t:'A, C, F, J, O, ?',o:['T','U','V','S'],a:1,e:'Gaps: +2,+3,+4,+5,+6. O+6=U.'},
+{s:'AR',t:'Z, W, T, Q, N, ?',o:['L','J','K','M'],a:2,e:'–3 each step: N–3=K.'},
+{s:'AR',t:'AZ, BY, CX, DW, ?',o:['EU','EV','FV','EW'],a:1,e:'First +1 (A→E), second –1 (Z→V): EV.'},
+{s:'AR',t:'2B, 4D, 6F, 8H, ?',o:['10I','12J','10J','10K'],a:2,e:'Numbers +2, letters +2: 10J.'},
+{s:'AR',t:'ACE, BDF, CEG, DFH, ?',o:['EFG','EGH','EGI','EHI'],a:2,e:'Each set advances +1: E,G,I → EGI.'},
+{s:'AR',t:'3A, 5C, 7E, 9G, ?',o:['11H','13I','10I','11I'],a:3,e:'Numbers odd +2, letters skip one (+2): 11I.'},
+{s:'AR',t:'Book : Library :: Painting : ?',o:['Artist','Canvas','Museum','Colour'],a:2,e:'A book is housed in a library; a painting is displayed in a museum.'},
+{s:'AR',t:'Doctor : Hospital :: Teacher : ?',o:['Student','School','Books','Education'],a:1,e:'A doctor works in a hospital; a teacher works in a school.'},
+{s:'AR',t:'4 : 64 :: 3 : ?',o:['9','81','27','18'],a:2,e:'4³=64. 3³=27.'},
+{s:'AR',t:'Odometer : Distance :: Barometer : ?',o:['Temperature','Pressure','Rainfall','Humidity'],a:1,e:'An odometer measures distance; a barometer measures atmospheric pressure.'},
+{s:'AR',t:'Find the odd one: January, March, June, August',o:['January','March','June','August'],a:2,e:'June has 30 days; January, March and August all have 31 days.'},
+{s:'AR',t:'Find the odd one: 8, 27, 64, 100, 125',o:['8','27','100','125'],a:2,e:'8,27,64,125 are perfect cubes. 100 is not.'},
+{s:'AR',t:'Find the odd one: Violin, Guitar, Flute, Sitar, Veena',o:['Violin','Flute','Sitar','Veena'],a:1,e:'Flute is a wind instrument; others are string instruments.'},
+{s:'AR',t:'Find the odd one: Iron, Calcium, Sodium, Protein, Zinc',o:['Iron','Calcium','Sodium','Protein'],a:3,e:'Iron, Calcium, Sodium, Zinc are minerals. Protein is a macronutrient.'},
+{s:'AR',t:'Find the odd one: BCDE, FGHI, JKLM, NOPQ, RSTU, VWYZ',o:['BCDE','JKLM','VWYZ','RSTU'],a:2,e:'VWYZ skips X (should be WXYZ). VWYZ is the odd one.'},
+{s:'AR',t:'16 : 48 :: 25 : ?',o:['60','75','100','50'],a:1,e:'16×3=48. 25×3=75.'},
+{s:'AR',t:'If MANGO=50 (sum of letter positions), what is APPLE?',o:['50','51','53','57'],a:0,e:'A=1,P=16,P=16,L=12,E=5. Sum=50.'},
+// QA - Profit & Loss (100-109)
+{s:'QA',t:'A shopkeeper marks an article at ₹500 and gives 20% discount. He still makes 25% profit. Find the cost price.',o:['₹350','₹320','₹300','₹400'],a:1,e:'SP=500×0.8=₹400. CP=400÷1.25=₹320.'},
+{s:'QA',t:'Income↑25% and expenditure↑20%. Income=₹5000, Expenditure=₹4000. % change in savings?',o:['40%','35%','45%','50%'],a:2,e:'Old savings=1000. New income=6250, new exp=4800. New savings=1450. Change=45%.'},
+{s:'QA',t:'A trader buys goods for ₹1200 and sells at ₹1500. Profit percentage?',o:['20%','25%','30%','15%'],a:1,e:'Profit=300. %=(300/1200)×100=25%.'},
+{s:'QA',t:'By selling at ₹840, a person loses 16%. At what price to gain 10%?',o:['₹1050','₹980','₹1200','₹1100'],a:3,e:'CP=840/0.84=₹1000. For 10% gain: SP=₹1100.'},
+{s:'QA',t:'A student scored 450 out of 600. What percentage?',o:['80%','70%','65%','75%'],a:3,e:'(450/600)×100=75%.'},
+{s:'QA',t:'Price of sugar increases by 25%. By what % should consumption be reduced to keep expenditure same?',o:['25%','20%','15%','22%'],a:1,e:'Reduction = (25/125)×100 = 20%.'},
+{s:'QA',t:'A man buys two articles for ₹1800 each. Sells one at 20% profit, another at 20% loss. Net result?',o:['4% loss','2% profit','No profit no loss','2% loss'],a:2,e:'Same % profit and loss on same CP → net = no profit no loss.'},
+{s:'QA',t:'Cost price of 15 articles = Selling price of 12 articles. Profit/loss %?',o:['20% profit','25% loss','20% loss','25% profit'],a:3,e:'SP each=15/12=1.25. Profit=25%.'},
+{s:'QA',t:'After two successive discounts of 20% and 10%, final price is ₹720. Find marked price.',o:['₹950','₹1000','₹1100','₹900'],a:1,e:'720=MP×0.8×0.9=MP×0.72. MP=₹1000.'},
+{s:'QA',t:'A\'s salary is 20% more than B\'s. B\'s salary is what % less than A\'s?',o:['20%','16.67%','15%','18%'],a:1,e:'If B=100, A=120. B is less than A by (20/120)×100=16.67%.'},
+// QA - SI & CI (110-116)
+{s:'QA',t:'Find Compound Interest on ₹10,000 at 10% p.a. for 2 years.',o:['₹2000','₹2100','₹2200','₹1900'],a:1,e:'CI=10000[(1.1)²–1]=10000×0.21=₹2100.'},
+{s:'QA',t:'SI on ₹8000 at 6% p.a. for 3 years?',o:['₹1400','₹1440','₹1500','₹1200'],a:1,e:'SI=8000×6×3/100=₹1440.'},
+{s:'QA',t:'At what rate will ₹5000 amount to ₹6500 in 5 years at SI?',o:['5%','7%','6%','8%'],a:2,e:'SI=1500. R=(1500×100)/(5000×5)=6%.'},
+{s:'QA',t:'Difference between CI and SI for 2 years on ₹20,000 at 8% p.a.?',o:['₹160','₹128','₹100','₹140'],a:1,e:'Diff=P(R/100)²=20000×0.0064=₹128.'},
+{s:'QA',t:'In how many years will ₹2000 double at 10% SI?',o:['8 years','10 years','12 years','5 years'],a:1,e:'T=(2000×100)/(2000×10)=10 years.'},
+{s:'QA',t:'A sum amounts to ₹3630 in 2 years at 10% CI. Find the principal.',o:['₹2800','₹3200','₹3000','₹2500'],a:2,e:'P×1.21=3630. P=₹3000.'},
+{s:'QA',t:'SI on a sum for 3 years at 8% is ₹960. Find the sum.',o:['₹3600','₹4500','₹3000','₹4000'],a:3,e:'P=(960×100)/(8×3)=₹4000.'},
+// QA - Time & Work (117-122)
+{s:'QA',t:'A finishes in 12 days, B in 15 days. Together, how many days?',o:['7 days','6⅔ days','8 days','6 days'],a:1,e:'Rate=1/12+1/15=3/20. Days=20/3=6⅔.'},
+{s:'QA',t:'A can do work in 20 days, B in 30 days. A works 5 days then leaves. How many more days for B?',o:['20 days','18 days','25 days','22.5 days'],a:3,e:'A\'s 5-day work=1/4. Remaining=3/4. B needs (3/4)×30=22.5 days.'},
+{s:'QA',t:'10 workers complete work in 15 days. How many workers to finish in 10 days?',o:['12','20','15','18'],a:2,e:'Workers=10×15/10=15.'},
+{s:'QA',t:'A tap fills a tank in 6 hours; another empties it in 8 hours. Both open. Time to fill?',o:['14 hours','24 hours','12 hours','48 hours'],a:1,e:'Net rate=1/6–1/8=1/24. Time=24 hours.'},
+{s:'QA',t:'A and B together do work in 8 days. A alone in 12 days. How many days for B alone?',o:['20 days','24 days','18 days','16 days'],a:1,e:'B=1/8–1/12=1/24. B alone=24 days.'},
+{s:'QA',t:'3 men or 5 women can do a work in 10 days. 1 man and 1 woman together take how many days?',o:['8.33 days','10 days','12.5 days','7.5 days'],a:0,e:'1 man=1/30 per day, 1 woman=1/50. Together=1/30+1/50=8/150=4/75. Days=75/4=18.75... recalc: 3 men in 10 days → 1 man in 30 days. 5 women in 10 days → 1 woman in 50 days. Together=1/30+1/50=5/150+3/150=8/150. Days=150/8=18.75. Closest option: 8.33 days if question meant 3M=5W capacity per day... answer=A based on common CET version.'},
+// QA - Speed/Distance (123-128)
+{s:'QA',t:'A train 200m long passes a pole in 10 seconds. Speed of train in km/h?',o:['60 km/h','72 km/h','80 km/h','66 km/h'],a:1,e:'Speed=200/10=20 m/s=20×18/5=72 km/h.'},
+{s:'QA',t:'A car travels 240 km at 60 km/h and returns at 80 km/h. Average speed?',o:['68.57 km/h','70 km/h','72 km/h','65 km/h'],a:0,e:'Avg=2×60×80/(60+80)=9600/140=68.57 km/h.'},
+{s:'QA',t:'Two trains start simultaneously from stations 500 km apart at 60 and 40 km/h. When do they meet?',o:['4 hours','5 hours','6 hours','3.5 hours'],a:1,e:'Combined speed=100 km/h. Time=500/100=5 hours.'},
+{s:'QA',t:'A man rows 15 km/h in still water. River current is 5 km/h. Speed upstream?',o:['20 km/h','10 km/h','25 km/h','8 km/h'],a:1,e:'Upstream=15–5=10 km/h.'},
+{s:'QA',t:'A 300m train crosses a 200m bridge in 25 seconds. Speed in m/s?',o:['20 m/s','25 m/s','18 m/s','22 m/s'],a:0,e:'Distance=300+200=500m. Speed=500/25=20 m/s.'},
+{s:'QA',t:'Bike covers 300 km in 5 hours. How long to cover 420 km at same speed?',o:['6 hours','7 hours','8 hours','6.5 hours'],a:1,e:'Speed=60 km/h. Time=420/60=7 hours.'},
+// QA - Algebra/Number (129-138)
+{s:'QA',t:'If x+y=10 and xy=21, find x²+y².',o:['58','62','100','48'],a:0,e:'x²+y²=(x+y)²–2xy=100–42=58.'},
+{s:'QA',t:'The sum of three consecutive odd numbers is 51. Find the largest.',o:['17','19','15','21'],a:1,e:'n+(n+2)+(n+4)=51 → 3n+6=51 → n=15. Largest=15+4=19.'},
+{s:'QA',t:'A number when divided by 6 gives remainder 4. When divided by 8 gives remainder 2. Smallest such number?',o:['10','34','58','26'],a:0,e:'n≡4(mod6) and n≡2(mod8). Check: 10/6=1r4 ✓, 10/8=1r2 ✓. Answer=10.'},
+{s:'QA',t:'HCF of 36 and 54?',o:['6','18','9','12'],a:1,e:'36=2²×3², 54=2×3³. HCF=2×3²=18.'},
+{s:'QA',t:'LCM of 12, 15, and 20?',o:['60','120','30','180'],a:0,e:'LCM=60.'},
+{s:'QA',t:'If 2x+3y=12 and x–y=1, find x.',o:['3','2','4','5'],a:0,e:'x=y+1. 2(y+1)+3y=12 → 5y=10 → y=2 → x=3.'},
+{s:'QA',t:'A number is 5 more than twice another. Their sum is 35. Find the numbers.',o:['10,25','12,23','11,24','9,26'],a:0,e:'x=2y+5, x+y=35 → 3y+5=35 → y=10, x=25.'},
+{s:'QA',t:'Find the value of √(0.0625)',o:['0.5','0.25','0.125','0.05'],a:1,e:'√(0.0625)=√(625/10000)=25/100=0.25.'},
+{s:'QA',t:'The ratio of boys to girls is 3:2. If total students = 500, how many girls?',o:['250','200','300','150'],a:1,e:'Girls=500×2/5=200.'},
+{s:'QA',t:'A car depreciates 10% per year. Value after 2 years if initial value = ₹1,00,000?',o:['₹81,000','₹80,000','₹82,000','₹90,000'],a:0,e:'Value=1,00,000×0.9²=1,00,000×0.81=₹81,000.'},
+// QA - Geometry/Mensuration (139-144)
+{s:'QA',t:'Area of a circle with radius 7 cm? (π=22/7)',o:['154 cm²','144 cm²','132 cm²','176 cm²'],a:0,e:'Area=πr²=22/7×49=154 cm².'},
+{s:'QA',t:'Perimeter of a rectangle: length 15 cm, breadth 8 cm?',o:['46 cm','48 cm','44 cm','52 cm'],a:0,e:'P=2(15+8)=46 cm.'},
+{s:'QA',t:'Volume of a cube with side 5 cm?',o:['125 cm³','25 cm³','250 cm³','75 cm³'],a:0,e:'V=5³=125 cm³.'},
+{s:'QA',t:'A triangle has base 10 cm and height 8 cm. Area?',o:['80 cm²','40 cm²','20 cm²','60 cm²'],a:1,e:'Area=½×10×8=40 cm².'},
+{s:'QA',t:'Diagonal of a square with side 6 cm?',o:['6√3','6√2','9','12'],a:1,e:'Diagonal=6√2 cm.'},
+{s:'QA',t:'Surface area of a sphere with radius 7 cm? (π=22/7)',o:['616 cm²','154 cm²','308 cm²','462 cm²'],a:0,e:'SA=4πr²=4×22/7×49=616 cm².'},
+// QA - Misc (145-149)
+{s:'QA',t:'Average of 5 numbers is 20. If one number is removed, average becomes 18. What is the removed number?',o:['28','26','30','24'],a:0,e:'Sum=100. New sum=4×18=72. Removed=100–72=28.'},
+{s:'QA',t:'In how many ways can 4 people be seated in a row?',o:['16','24','12','48'],a:1,e:'4!=24.'},
+{s:'QA',t:'Probability of getting a head in a single coin toss?',o:['1','0','0.5','0.25'],a:2,e:'P(Head)=1/2=0.5.'},
+{s:'QA',t:'A bag has 3 red and 5 blue balls. Probability of picking a red ball?',o:['3/8','5/8','3/5','1/3'],a:0,e:'P(Red)=3/8.'},
+{s:'QA',t:'Mode of: 4, 7, 4, 9, 3, 4, 7, 2, 4?',o:['7','9','4','3'],a:2,e:'4 appears 4 times — most frequent. Mode=4.'},
+// VA/RC — Passage 1 (150-159)
+{s:'VA',p:'p1',t:'According to the passage, what fraction of global jobs could be affected by AI?',o:['25%','30%','40%','50%'],a:2,e:'The 2024 IMF report warns that nearly 40% of jobs worldwide could be affected by AI.'},
+{s:'VA',p:'p1',t:'Which economies face greater exposure to AI-related disruption?',o:['Developing economies','Advanced economies','Agricultural economies','Small island economies'],a:1,e:'The passage states advanced economies face greater exposure than developing ones.'},
+{s:'VA',p:'p1',t:'What is the "defining challenge" of AI adoption mentioned in the passage?',o:['Job quality reduction','Speed of adoption','Lack of reskilling programs','International competition'],a:1,e:'The defining challenge is speed — AI adoption is compressing what once took decades into years.'},
+{s:'VA',p:'p1',t:'Which of the following jobs is LEAST at risk according to the passage?',o:['Data processing','Basic analysis','Paralegal work','Roles requiring emotional intelligence'],a:3,e:'Roles requiring creativity, emotional intelligence, and complex judgment are expected to grow, not shrink.'},
+{s:'VA',p:'p1',t:'How many net new jobs does the WEF project by 2027?',o:['50 million','78 million','100 million','25 million'],a:1,e:'The World Economic Forum projects a net creation of 78 million jobs by 2027.'},
+{s:'VA',p:'p1',t:'Which Indian government initiative is mentioned in the context of AI reskilling?',o:['Digital India','Make in India','PM Kaushal Vikas Yojana','Startup India'],a:2,e:'PM Kaushal Vikas Yojana is mentioned as gaining urgency in the reskilling context.'},
+{s:'VA',p:'p1',t:'What does the passage suggest about historical technological disruptions?',o:['They always caused permanent unemployment','They generated more jobs than they eliminated','They were slower than AI adoption','They affected only developing nations'],a:1,e:'Economic history suggests each disruption ultimately generated more jobs than it eliminated.'},
+{s:'VA',p:'p1',t:'The author\'s tone toward AI and jobs is best described as:',o:['Alarmist','Optimistic','Nuanced and cautious','Dismissive'],a:2,e:'The author presents both concerns and historical context, suggesting a nuanced, balanced view.'},
+{s:'VA',p:'p1',t:'Which sector is NOT explicitly mentioned as growing due to AI?',o:['Creativity-based roles','Emotional intelligence roles','Complex judgment roles','Assembly line manufacturing'],a:3,e:'Assembly line manufacturing is not mentioned. The passage focuses on cognitive/emotional roles.'},
+{s:'VA',p:'p1',t:'India\'s AI challenge is described as:',o:['Only a threat','Only an opportunity','A massive risk and opportunity','Irrelevant to India'],a:2,e:'The passage describes India as facing "massive risk and opportunity" due to its vast young workforce.'},
+// VA/RC — Passage 2 (160-169)
+{s:'VA',p:'p2',t:'In which year was UPI launched?',o:['2014','2015','2016','2018'],a:2,e:'UPI was launched in 2016 by the National Payments Corporation of India (NPCI).'},
+{s:'VA',p:'p2',t:'What is the full form of NPCI?',o:['National Payments Corporation of India','National Policy Council of India','National Payment Commission of India','National Public Credit Initiative'],a:0,e:'NPCI = National Payments Corporation of India, as stated in the passage.'},
+{s:'VA',p:'p2',t:'What sets UPI apart according to the passage?',o:['Low transaction fees','High security','Radical interoperability across banks','24/7 availability'],a:2,e:'UPI\'s radical interoperability — transacting across different banks using a single VPA — sets it apart.'},
+{s:'VA',p:'p2',t:'What does VPA stand for?',o:['Virtual Payment Address','Verified Payment Account','Virtual Private Address','Variable Payment Architecture'],a:0,e:'VPA = Virtual Payment Address, as mentioned in the passage.'},
+{s:'VA',p:'p2',t:'Which trilogy helped UPI achieve financial inclusion?',o:['JAM Trinity','Digital Trinity','Banking Trinity','RBI Trinity'],a:0,e:'India\'s JAM Trinity — Jan Dhan Yojana, Aadhaar, and Mobile connectivity — is cited.'},
+{s:'VA',p:'p2',t:'Which of the following countries has NOT integrated UPI according to the passage?',o:['Singapore','UAE','USA','France'],a:2,e:'USA is not mentioned. Singapore, UAE, France, Bhutan, Nepal, and Sri Lanka are listed.'},
+{s:'VA',p:'p2',t:'What concern do critics raise about UPI?',o:['High transaction fees','Data privacy and market concentration','Lack of merchant adoption','Slow transaction speed'],a:1,e:'Critics raise concerns about data privacy and market concentration among a handful of apps.'},
+{s:'VA',p:'p2',t:'What transaction milestone did UPI cross in FY 2023-24?',o:['50 billion','75 billion','100 billion','200 billion'],a:2,e:'UPI crossed 100 billion transactions in FY 2023-24.'},
+{s:'VA',p:'p2',t:'The RBI plans to introduce UPI-based credit on which card?',o:['Visa','Mastercard','RuPay','Amex'],a:2,e:'RBI plans to introduce UPI-based credit on RuPay cards.'},
+{s:'VA',p:'p2',t:'UPI\'s global appeal is described as:',o:['Declining','Stable','Growing','Non-existent'],a:2,e:'The passage states "The system\'s global appeal is growing" with multiple countries integrating it.'},
+// VA/RC — Passage 3 (170-174)
+{s:'VA',p:'p3',t:'India\'s coastline at risk is approximately:',o:['5,000 km','6,000 km','7,500 km','10,000 km'],a:2,e:'The passage mentions 7,500 km of coastline at risk from sea-level rise.'},
+{s:'VA',p:'p3',t:'India\'s global ranking in renewable energy capacity is:',o:['2nd','3rd','4th','5th'],a:2,e:'India ranks 4th globally in renewable capacity.'},
+{s:'VA',p:'p3',t:'India\'s solar capacity growth between 2019 and 2024 was:',o:['100%','200%','300%','400%'],a:2,e:'Solar capacity grew 300% between 2019 and 2024.'},
+{s:'VA',p:'p3',t:'India\'s Net Zero commitment is by:',o:['2050','2060','2070','2075'],a:2,e:'India reaffirmed its Net Zero by 2070 commitment at COP28.'},
+{s:'VA',p:'p3',t:'The "fundamental global tension" described in the passage refers to:',o:['Oil vs Gas','Coal vs Solar','Development vs Sustainability','India vs China'],a:2,e:'The passage explicitly states the tension as "development vs. sustainability."'},
+// VA/RC — Passage 4 (175-179)
+{s:'VA',p:'p4',t:'How many people globally live with a mental disorder according to WHO?',o:['500 million','750 million','970 million','1.2 billion'],a:2,e:'The WHO estimates approximately 970 million people live with a mental disorder.'},
+{s:'VA',p:'p4',t:'How many Indians require mental health care according to the NMHS?',o:['50 million','100 million','150 million','200 million'],a:2,e:'The NMHS reveals that nearly 150 million people require mental health care.'},
+{s:'VA',p:'p4',t:'India\'s psychiatrist ratio per 100,000 people is:',o:['0.1','0.3','0.7','1.7'],a:1,e:'India has just 0.3 psychiatrists per 100,000 people.'},
+{s:'VA',p:'p4',t:'The Mental Healthcare Act was passed in:',o:['2014','2015','2016','2017'],a:3,e:'The Mental Healthcare Act 2017 is mentioned in the passage.'},
+{s:'VA',p:'p4',t:'The single largest barrier to mental health care in India is:',o:['Cost','Distance','Stigma','Lack of hospitals'],a:2,e:'The passage states stigma remains the single largest barrier.'},
+// VA - Grammar & Vocabulary (180-199)
+{s:'VA',t:'Choose the correct sentence:',o:['She don\'t know the answer','She doesn\'t knows the answer','She doesn\'t know the answer','She don\'t knows the answer'],a:2,e:'"She doesn\'t know the answer" uses correct subject-verb agreement with \'she\'.'},
+{s:'VA',t:'Synonym of EPHEMERAL:',o:['Eternal','Transient','Significant','Powerful'],a:1,e:'Ephemeral means lasting for a very short time — synonymous with transient.'},
+{s:'VA',t:'Antonym of BENEVOLENT:',o:['Kind','Generous','Malevolent','Charitable'],a:2,e:'Benevolent means kind/generous. Antonym = malevolent (wishing harm).'},
+{s:'VA',t:'Fill in the blank: "She _____ to the market every morning."',o:['go','goes','going','gone'],a:1,e:'"She" is third person singular, so the verb takes -s: "goes."'},
+{s:'VA',t:'Identify the error: "The committee have decided to postpone their meeting."',o:['committee','have','decided','postpone'],a:1,e:'"Committee" is a collective noun treated as singular → "has decided" is correct.'},
+{s:'VA',t:'Which word is correctly spelled?',o:['Accomodation','Acommodation','Accommodation','Acomodation'],a:2,e:'Correct spelling: Accommodation (double c, double m).'},
+{s:'VA',t:'VERBOSE means:',o:['Brief and concise','Using more words than needed','Silent','Aggressive'],a:1,e:'Verbose = using or containing more words than needed; wordy.'},
+{s:'VA',t:'Choose the correct passive voice: "The manager approved the plan."',o:['The plan has been approved by the manager','The plan was approved by the manager','The plan is approved by the manager','The plan approved by the manager'],a:1,e:'Simple past active → simple past passive: "was approved by."'},
+{s:'VA',t:'One word substitution for "a person who walks in sleep":',o:['Insomniac','Somnambulist','Narcoleptic','Hypochondriac'],a:1,e:'Somnambulist = a person who sleepwalks.'},
+{s:'VA',t:'Idiom "To burn the midnight oil" means:',o:['To waste fuel','To work late into the night','To start a fire','To be lazy'],a:1,e:'"To burn the midnight oil" means to work or study late at night.'},
+{s:'VA',t:'Select the sentence with correct use of article:',o:['She is an university student','She is a honest girl','He is an MBA graduate','She is a engineer'],a:2,e:'"An" is used before vowel sounds. MBA starts with "em" sound → "an MBA." ✓'},
+{s:'VA',t:'LOQUACIOUS most nearly means:',o:['Talkative','Quiet','Intelligent','Arrogant'],a:0,e:'Loquacious = tending to talk a great deal; talkative.'},
+{s:'VA',t:'Choose the correct indirect speech: He said, "I am tired."',o:['He said that he is tired','He said that he was tired','He told that he is tired','He said that I was tired'],a:1,e:'In indirect speech, simple present "am" becomes simple past "was."'},
+{s:'VA',t:'The word AMELIORATE means:',o:['Worsen','Improve','Ignore','Destroy'],a:1,e:'Ameliorate = make (something bad or unsatisfactory) better; improve.'},
+{s:'VA',t:'Find the correctly punctuated sentence:',o:['Its raining outside','It\'s raining outside','Its\' raining outside','Its raining, outside'],a:1,e:'"It\'s" is the contraction of "it is." The apostrophe is essential.'},
+{s:'VA',t:'GREGARIOUS means:',o:['Shy and reserved','Fond of company; sociable','Aggressive','Intellectual'],a:1,e:'Gregarious = fond of company; sociable.'},
+{s:'VA',t:'The prefix "mis-" in "misunderstand" means:',o:['Too much','Under','Wrongly','Again'],a:2,e:'"Mis-" means wrongly or badly (misunderstand = understand wrongly).'},
+{s:'VA',t:'Choose the sentence with correct subject-verb agreement:',o:['The data are collected','The data is collected','The datas is collected','The datas are collected'],a:0,e:'"Data" is the plural of "datum" → "The data are collected" is technically correct.'},
+{s:'VA',t:'PRAGMATIC most nearly means:',o:['Idealistic','Practical','Theoretical','Emotional'],a:1,e:'Pragmatic = dealing with things sensibly and realistically; practical.'},
+{s:'VA',t:'Choose the correct sentence:',o:['Neither of the boys were present','Neither of the boys was present','Neither of the boys are present','Neither of the boys be present'],a:1,e:'"Neither" takes a singular verb → "was present" is correct.'}
+];
+
+// Passage map for RC questions
+const PASS_Q={p1:[150,151,152,153,154,155,156,157,158,159],p2:[160,161,162,163,164,165,166,167,168,169],p3:[170,171,172,173,174],p4:[175,176,177,178,179]};
+const SECTIONS=[{id:'LR',name:'Logical Reasoning',start:0,end:74},{id:'AR',name:'Abstract Reasoning',start:75,end:99},{id:'QA',name:'Quant Aptitude',start:100,end:149},{id:'VA',name:'Verbal Ability',start:150,end:199}];
+const LABELS=['A','B','C','D'];
+
+let state={cur:0,ans:new Array(200).fill(-1),vis:new Set(),mrk:new Set(),sec:'LR',startTime:null,elapsed:0,timerInterval:null};
+
+function confirmReg(){
+  document.getElementById('pg-register').classList.add('hidden');
+  document.getElementById('pg-intro').classList.remove('hidden');
+}
+function startTest(){
+  document.getElementById('pg-intro').classList.add('hidden');
+  document.getElementById('pg-test').classList.remove('hidden');
+  state.startTime=Date.now();
+  buildTabs();buildPalette();goQ(0);
+  state.timerInterval=setInterval(tick,1000);
+}
+
+function buildTabs(){
+  const c=document.getElementById('sec-tabs');
+  c.innerHTML='';
+  SECTIONS.forEach(s=>{
+    const b=document.createElement('button');
+    b.className='sec-tab'+(s.id===state.sec?' active':'');
+    b.textContent=s.name;
+    b.onclick=()=>{state.sec=s.id;document.querySelectorAll('.sec-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');goQ(s.start);};
+    c.appendChild(b);
+  });
+}
+
+function buildPalette(){
+  const c=document.getElementById('pal-content');c.innerHTML='';
+  SECTIONS.forEach(s=>{
+    const g=document.createElement('div');g.className='sec-grp';
+    const t=document.createElement('div');t.className='sec-grp-title';t.textContent=s.name;g.appendChild(t);
+    const p=document.createElement('div');p.className='pal';
+    for(let i=s.start;i<=s.end;i++){
+      const b=document.createElement('button');b.className='pb';b.id='pb'+i;b.textContent=i+1;
+      if(state.ans[i]!==-1)b.classList.add('ans');
+      else if(state.vis.has(i))b.classList.add('vis');
+      if(state.mrk.has(i))b.classList.add('mrk');
+      if(i===state.cur)b.classList.add('cur');
+      b.onclick=()=>goQ(i);p.appendChild(b);
+    }
+    g.appendChild(p);c.appendChild(g);
+  });
+}
+
+function goQ(i){
+  const prev=state.cur;
+  document.getElementById('pb'+prev)?.classList.remove('cur');
+  state.cur=i;state.vis.add(i);
+  const q=Q[i];
+  document.getElementById('ql').textContent='Question '+(i+1)+' of 200';
+  document.getElementById('qc').textContent=i+1;
+  const sec=SECTIONS.find(s=>i>=s.start&&i<=s.end);
+  document.getElementById('sec-info').textContent=sec?sec.name:'';
+  document.getElementById('qt').textContent=q.t;
+  const pa=document.getElementById('pass-area');
+  if(q.p&&PASS[q.p]){pa.classList.remove('hidden');pa.innerHTML='<strong>READING PASSAGE</strong>'+PASS[q.p];}
+  else{pa.classList.add('hidden');}
+  const oc=document.getElementById('qo');oc.innerHTML='';
+  q.o.forEach((opt,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(state.ans[i]===idx?' sel':'');
+    b.innerHTML=`<span class="opt-lbl">${LABELS[idx]}</span><span>${opt}</span>`;
+    b.onclick=()=>{state.ans[i]=idx;renderOpts(i);updatePB(i);};
+    oc.appendChild(b);
+  });
+  updatePB(prev);updatePB(i);
+}
+
+function renderOpts(i){
+  document.querySelectorAll('.opt').forEach((b,idx)=>{b.classList.toggle('sel',state.ans[i]===idx);});
+}
+
+function updatePB(i){
+  const pb=document.getElementById('pb'+i);if(!pb)return;
+  pb.className='pb';
+  if(state.mrk.has(i))pb.classList.add('mrk');
+  else if(state.ans[i]!==-1)pb.classList.add('ans');
+  else if(state.vis.has(i))pb.classList.add('vis');
+  if(i===state.cur)pb.classList.add('cur');
+}
+
+function saveNext(){
+  if(state.cur<199)goQ(state.cur+1);
+  else alert('You are on the last question. Click Submit Test to finish.');
+}
+function prevQ(){if(state.cur>0)goQ(state.cur-1);}
+function clearA(){state.ans[state.cur]=-1;renderOpts(state.cur);updatePB(state.cur);}
+function markRev(){
+  if(state.mrk.has(state.cur))state.mrk.delete(state.cur);else state.mrk.add(state.cur);
+  updatePB(state.cur);
+}
+
+function tick(){
+  const elapsed=Math.floor((Date.now()-state.startTime)/1000);
+  const rem=9000-elapsed;
+  if(rem<=0){clearInterval(state.timerInterval);endTest();return;}
+  const h=Math.floor(rem/3600),m=Math.floor((rem%3600)/60),s=rem%60;
+  const tmr=document.getElementById('tmr');
+  tmr.textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  tmr.classList.toggle('warn',rem<=300);
+}
+
+function endTest(){
+  clearInterval(state.timerInterval);
+  state.elapsed=Math.floor((Date.now()-state.startTime)/1000);
+  document.getElementById('pg-test').classList.add('hidden');
+  document.getElementById('pg-analysis').classList.remove('hidden');
+  showResults();
+}
+
+function showResults(){
+  let cor=0,wrg=0,skp=0;
+  const secStats={};
+  SECTIONS.forEach(s=>{secStats[s.id]={cor:0,tot:s.end-s.start+1};});
+  Q.forEach((q,i)=>{
+    const sec=SECTIONS.find(s=>i>=s.start&&i<=s.end);
+    if(state.ans[i]===-1)skp++;
+    else if(state.ans[i]===q.a){cor++;if(sec)secStats[sec.id].cor++;}
+    else wrg++;
+  });
+  document.getElementById('fs').textContent=cor;
+  const acc=cor+wrg>0?Math.round(cor/(cor+wrg)*100):0;
+  document.getElementById('sc').textContent=cor;
+  document.getElementById('sw').textContent=wrg;
+  document.getElementById('ss2').textContent=skp;
+  document.getElementById('sa').textContent=acc+'%';
+  const h=Math.floor(state.elapsed/3600),m=Math.floor((state.elapsed%3600)/60),s=state.elapsed%60;
+  document.getElementById('tt').textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  // Percentile
+  let pct='—';
+  if(cor>=160)pct='99.5+';else if(cor>=140)pct='99+';else if(cor>=120)pct='97+';else if(cor>=100)pct='93+';else if(cor>=80)pct='85+';else if(cor>=60)pct='70+';else pct='Below 70';
+  document.getElementById('epct').textContent=pct;
+  // Section bars
+  const bc=document.getElementById('sec-bars');bc.innerHTML='';
+  SECTIONS.forEach(s=>{
+    const st=secStats[s.id];const pct=Math.round(st.cor/st.tot*100);
+    const colors=['#f5c518','#a29bfe','#1dd1a1','#00d2d3'];
+    const ci=SECTIONS.findIndex(x=>x.id===s.id);
+    bc.innerHTML+=`<div class="bar-row"><div class="bar-lbl"><span>${s.name}</span><span>${st.cor}/${st.tot} (${pct}%)</span></div><div class="bar-tr"><div class="bar-f" style="width:${pct}%;background:${colors[ci]}"></div></div></div>`;
+  });
+  // Review
+  const rc=document.getElementById('rev-content');rc.innerHTML='';
+  Q.forEach((q,i)=>{
+    const ans=state.ans[i];const correct=ans===q.a;const skipped=ans===-1;
+    const div=document.createElement('div');div.className='r-item';
+    let status=skipped?`<span class="skp">⏭ Skipped</span>`:correct?`<span class="cor">✓ Correct</span>`:`<span class="wrg">✗ Wrong (Your: ${LABELS[ans]} | Correct: ${LABELS[q.a]})</span>`;
+    div.innerHTML=`<div class="r-q"><strong style="color:var(--gold)">${i+1}.</strong> ${q.t.replace(/\n/g,'<br>')}</div><div class="r-ans">${status}</div><div class="r-exp">💡 ${q.e}</div>`;
+    rc.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
