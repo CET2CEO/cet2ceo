@@ -430,6 +430,10 @@ let state={cur:0,ans:new Array(200).fill(-1),vis:new Set(),mrk:new Set(),sec:'LR
 
 function confirmReg(){
   document.getElementById('pg-register').classList.add('hidden');
+  document.getElementById('pg-payment').classList.remove('hidden');
+}
+function startMock(){
+  document.getElementById('pg-payment').classList.add('hidden');
   document.getElementById('pg-intro').classList.remove('hidden');
 }
 function startTest(){
